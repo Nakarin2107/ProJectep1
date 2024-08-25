@@ -1,114 +1,3 @@
-
-
-// ฟังก์ชันแจ้งเตือน
-function showAlert(message, type = 'success') {
-    const alertContainer = document.createElement('div');
-    alertContainer.className = `alert alert-${type} alert-dismissible fade show custom-alert`; // ใช้ Bootstrap classes
-    
-    const icon = document.createElement('i');
-    if (type === 'success') {
-        icon.className = 'fas fa-check-circle'; // ไอคอนเครื่องหมายถูกจาก FontAwesome
-    } else if (type === 'danger') {
-        icon.className = 'fas fa-times-circle'; // ไอคอนเครื่องหมายกากบาทจาก FontAwesome
-    } else if (type === 'warning') {
-        icon.className = 'fas fa-exclamation-circle'; // ไอคอนเครื่องหมายเตือนจาก FontAwesome
-    } else {
-        icon.className = 'fas fa-info-circle'; // ไอคอนข้อมูลจาก FontAwesome
-    }
-    
-    icon.className += ' mr-2'; // เพิ่ม margin ขวา
-    alertContainer.appendChild(icon);
-    
-    const alertMessage = document.createElement('span');
-    alertMessage.innerText = message;
-    alertContainer.appendChild(alertMessage);
-
-    const closeButton = document.createElement('button');
-    closeButton.type = 'button';
-    closeButton.className = 'close';
-    closeButton.innerHTML = '&times;';
-    closeButton.setAttribute('data-dismiss', 'alert');
-    alertContainer.appendChild(closeButton);
-
-    document.body.appendChild(alertContainer);
-
-    setTimeout(() => {
-        $(alertContainer).alert('close'); // ใช้ jQuery เพื่อปิด Alert อัตโนมัติ
-    }, 3000);
-}
-
-
-// CSS ที่ต้องใช้
-const style = document.createElement('style');
-style.textContent = `
-    .custom-alert {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: rgba(255, 255, 255, 0.9); /* พื้นหลังสีขาวโปร่งแสง */
-        color: #333;
-        padding: 20px 30px;
-        border-radius: 12px; /* ขอบมน */
-        display: flex;
-        align-items: center; /* จัดให้ไอคอนและข้อความอยู่กลางในแนวตั้ง */
-        justify-content: center; /* จัดให้ไอคอนและข้อความอยู่กลางในแนวนอน */
-        z-index: 1000;
-        text-align: center;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* เงา */
-        border: 2px solid #333; /* เส้นขอบ */
-        opacity: 0;
-        animation: fadeInOut 3s forwards;
-        gap: 20px; /* เพิ่มระยะห่างระหว่างไอคอนและข้อความ */
-    }
-    
-    .alert-icon {
-        font-size: 24px; /* ขนาดของไอคอน */
-        color: inherit; /* ให้ไอคอนมีสีเหมือนกับข้อความ */
-    }
-
-    @keyframes fadeInOut {
-        0% {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.9);
-        }
-        10% {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        90% {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        100% {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.9);
-        }
-    }
-    
-    .alert-success {
-        border-color: #28a745; /* สีเขียวสำหรับ Success */
-    }
-    
-    .alert-danger {
-        border-color: #dc3545; /* สีแดงสำหรับ Danger */
-    }
-    
-    .alert-warning {
-        border-color: #ffc107; /* สีเหลืองสำหรับ Warning */
-    }
-    
-    .alert-info {
-        border-color: #17a2b8; /* สีฟ้าสำหรับ Info */
-    }
-`;
-
-document.head.appendChild(style);
-
-
-
-
-
 const maxRequestsPerPage = 5;
 const totalPages = 100;
 let currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
@@ -124,6 +13,11 @@ function formatDate(dateString) {
     return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
 
+function countBorrowedTimes(studentId) {
+    let requests = JSON.parse(localStorage.getItem('requests')) || [];
+    return requests.filter(request => request.studentId === studentId).length;
+}
+
 function loadRequests(page) {
     const requestsTable = document.getElementById('requestsTable');
     const requests = JSON.parse(localStorage.getItem('requests')) || [];
@@ -136,15 +30,14 @@ function loadRequests(page) {
     const end = start + maxRequestsPerPage;
     const paginatedRequests = requests.slice(start, end);
 
-    // Populate table rows
     paginatedRequests.forEach(request => {
         const row = requestsTable.insertRow();
-        row.className = request.status === 'อนุมัติ' ? 'table-success' :
-                        request.status === 'ปฏิเสธ' ? 'table-danger' :
-                        request.status === 'คืนแล้ว' ? 'table-info' : ''; 
-
+        row.className = request.status === 'อนุมัติ' ? 'table-custom-approved' :
+                        request.status === 'ปฏิเสธ' ? 'table-custom-denied' :
+                        request.status === 'คืนแล้ว' ? 'table-custom-returned' : ''; 
+    
         const formattedDateTime = formatDate(request.dateTime);
-
+    
         row.insertCell(0).innerText = (start + paginatedRequests.indexOf(request) + 1);
         row.insertCell(1).innerText = formattedDateTime;
         row.insertCell(2).innerText = request.studentId;
@@ -152,19 +45,23 @@ function loadRequests(page) {
         row.insertCell(4).innerText = request.equipment;
         row.insertCell(5).innerText = request.type;
         row.insertCell(6).innerText = request.status;
-
+    
         const returnDateTime = request.returnDateTime ? formatDate(request.returnDateTime) : '-';
         row.insertCell(7).innerText = returnDateTime;
-
+    
         const actionCell = row.insertCell(8);
 
+        // Add number of times borrowed
+        const borrowedTimesCell = row.insertCell(9);
+        borrowedTimesCell.innerText = countBorrowedTimes(request.studentId);
+    
         // Add buttons based on status
         if (request.status === 'รออนุมัติ') {
             const approveButton = document.createElement('button');
             approveButton.innerText = 'อนุมัติ';
             approveButton.className = 'btn btn-success btn-sm mr-2';
             approveButton.onclick = () => updateRequestStatus(request.id, 'อนุมัติ');
-
+    
             const denyButton = document.createElement('button');
             denyButton.innerText = 'ปฏิเสธ';
             denyButton.className = 'btn btn-danger btn-sm';
@@ -185,17 +82,17 @@ function loadRequests(page) {
                 editButton.classList.add('disabled');
                 editButton.title = 'ไม่สามารถแก้ไขได้';
             }
-
+    
             const deleteButton = document.createElement('button');
             deleteButton.innerText = 'ลบ';
             deleteButton.className = 'btn btn-danger btn-sm';
             deleteButton.onclick = () => deleteRequest(request.id);
-
+    
             actionCell.appendChild(editButton);
             actionCell.appendChild(deleteButton);
         }
     });
-
+    
     // Update pagination buttons
     document.getElementById('prevPage').classList.toggle('disabled', page <= 1);
     document.getElementById('nextPage').classList.toggle('disabled', page >= totalPages);
@@ -216,9 +113,7 @@ function loadRequests(page) {
 
 window.onload = () => loadRequests(currentPage);
 
-
-window.onload = () => loadRequests(currentPage);
-// เมื่อมีการอัปเดตสถานะ
+// ฟังก์ชันสำหรับอัปเดตสถานะ
 function updateRequestStatus(id, status) {
     let requests = JSON.parse(localStorage.getItem('requests')) || [];
     requests = requests.map(request => {
@@ -238,7 +133,6 @@ function updateRequestStatus(id, status) {
         confirmButtonText: 'ตกลง'
     });
 }
-
 
 // ฟังก์ชันสำหรับแก้ไขคำขอ
 function editRequest(id) {
@@ -312,8 +206,6 @@ function deleteRequest(id) {
     });
 }
 
-
-
 // เมื่อมีการลบคำขอทั้งหมดในหน้านี้
 function deleteAllRequests() {
     Swal.fire({
@@ -344,6 +236,5 @@ function deleteAllRequests() {
         }
     });
 }
-
 
 window.onload = () => loadRequests(currentPage);

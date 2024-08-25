@@ -1,5 +1,3 @@
-
-
 document.getElementById('returnForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const studentId = document.getElementById('studentId').value;
@@ -9,8 +7,8 @@ document.getElementById('returnForm').addEventListener('submit', function(event)
 function formatThaiDate(dateTime) {
     const date = new Date(dateTime);
     const day = date.getDate();
-    const month = date.getMonth() + 1; // Months are zero-indexed
-    const year = date.getFullYear() + 543; // Convert to Buddhist Year
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear() + 543;
     const hours = date.getHours();
     const minutes = date.getMinutes();
     
@@ -22,28 +20,53 @@ function formatThaiDate(dateTime) {
 
 function loadBorrowedItems(studentId) {
     const borrowedItemsDiv = document.getElementById('borrowedItems');
-    borrowedItemsDiv.innerHTML = '<h2>รายการอุปกรณ์ที่ยืม</h2>'; // เพิ่มหัวข้อ
+    const borrowedItemsBox = document.getElementById('borrowedItemsBox');
     const returnButton = document.getElementById('returnButton');
+
+    // ล้างเนื้อหาก่อนหน้า
+    borrowedItemsDiv.innerHTML = '';
     returnButton.style.display = 'none';
+    borrowedItemsBox.style.display = 'none'; // ซ่อนกล่องรายการยืมตอนเริ่มต้น
 
     let requests = JSON.parse(localStorage.getItem('requests')) || [];
     const borrowedItems = requests.filter(request => request.studentId === studentId && request.type === 'ยืม' && request.status === 'อนุมัติ');
 
     if (borrowedItems.length > 0) {
+        // เพิ่มข้อความ "รายการอุปกรณ์ที่ยืม"
+        const heading = document.createElement('h2');
+        heading.innerText = 'รายการอุปกรณ์ที่ยืม';
+        borrowedItemsDiv.appendChild(heading);
+
         borrowedItems.forEach(item => {
-            const p = document.createElement('p');
+            const card = document.createElement('div');
+            card.className = 'card mb-3';
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.value = item.id;
-            p.appendChild(checkbox);
-            p.appendChild(document.createTextNode(` ${item.equipment} - ยืมเมื่อ ${formatThaiDate(item.dateTime)}`));
-            borrowedItemsDiv.appendChild(p);
+            checkbox.className = 'form-check-input';
+
+            const cardText = document.createElement('span');
+            cardText.className = 'card-text';
+            cardText.innerHTML = `<strong>${item.equipment}</strong> - ยืมเมื่อ ${formatThaiDate(item.dateTime)}`;
+
+            cardBody.appendChild(checkbox);
+            cardBody.appendChild(cardText);
+            card.appendChild(cardBody);
+            borrowedItemsDiv.appendChild(card);
         });
-        returnButton.style.display = 'block';
+
+        borrowedItemsBox.style.display = 'block'; // แสดงกล่องรายการยืม
+        returnButton.style.display = 'block'; // แสดงปุ่มคืนอุปกรณ์
     } else {
-        borrowedItemsDiv.innerHTML = '<p>ไม่พบรายการอุปกรณ์ที่ยืม</p>';
+        borrowedItemsDiv.innerHTML = '<p class="text-muted">ไม่พบรายการอุปกรณ์ที่ยืม</p>';
+        borrowedItemsBox.style.display = 'block'; // แสดงกล่องแม้ว่าจะไม่พบรายการ
     }
 }
+
 
 document.getElementById('returnButton').addEventListener('click', function() {
     const checkboxes = document.querySelectorAll('#borrowedItems input[type="checkbox"]:checked');
@@ -78,9 +101,7 @@ document.getElementById('returnButton').addEventListener('click', function() {
         text: 'อุปกรณ์ที่เลือกถูกคืนแล้ว',
         confirmButtonText: 'ตกลง'
     }).then(() => {
-        // หลังจากคืนอุปกรณ์ ให้โหลดรายการใหม่
         const studentId = document.getElementById('studentId').value;
         loadBorrowedItems(studentId);
     });
 });
-

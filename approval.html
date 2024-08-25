@@ -219,7 +219,28 @@
                 font-size: 14px; 
             }
         }
+
+        .table-custom-approved {
+            background-color: #d4edda; /* Light green */
+            color: black;
+        }
         
+        .table-custom-denied {
+            background-color: #f8d7da; /* Light red */
+            color: black;        
+        }
+        
+        
+        .table-custom-returned {
+            background-color: #d1ecf1; /* Light blue */
+            color: black;       
+        }
+        
+        #requestsTable td {
+    text-align: center; /* จัดกึ่งกลางในแนวนอน */
+    vertical-align: middle; /* จัดกึ่งกลางในแนวตั้ง */
+}
+
         
     </style>
 </head>
@@ -255,6 +276,7 @@
                 <th>สถานะ</th>
                 <th>วันที่คืน</th>
                 <th>การดำเนินการ</th>
+                <th>จำนวนครั้งที่ยืม</th>
             </tr>
             <!-- แถวข้อมูลจะถูกเพิ่มที่นี่โดย JavaScript -->
         </table>
