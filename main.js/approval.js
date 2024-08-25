@@ -51,9 +51,9 @@ function loadRequests(page) {
     
         const actionCell = row.insertCell(8);
 
-        // Add number of times borrowed
-        const borrowedTimesCell = row.insertCell(9);
-        borrowedTimesCell.innerText = countBorrowedTimes(request.studentId);
+        // // Add number of times borrowed
+        // const borrowedTimesCell = row.insertCell(9);
+        // borrowedTimesCell.innerText = countBorrowedTimes(request.studentId);
     
         // Add buttons based on status
         if (request.status === 'รออนุมัติ') {
@@ -179,6 +179,34 @@ function updateStatus() {
         });
     }
 }
+
+function updatePaginationInfo(page, totalPages) {
+    document.getElementById('pageInfo').innerText = `หน้า ${page} จาก ${totalPages}`;
+
+    // Update pagination buttons
+    document.getElementById('prevPage').classList.toggle('disabled', page <= 1);
+    document.getElementById('nextPage').classList.toggle('disabled', page >= totalPages);
+
+    document.getElementById('prevPage').onclick = () => {
+        if (page > 1) {
+            currentPage--;
+            loadRequests(currentPage);
+            updatePaginationInfo(currentPage, totalPages);
+        }
+    };
+
+    document.getElementById('nextPage').onclick = () => {
+        if (page < totalPages) {
+            currentPage++;
+            loadRequests(currentPage);
+            updatePaginationInfo(currentPage, totalPages);
+        }
+    };
+}
+
+// เรียกใช้ฟังก์ชันเมื่อเริ่มต้นหรือหลังจากเปลี่ยนหน้า
+updatePaginationInfo(currentPage, totalPages);
+
 
 // เมื่อมีการลบคำขอ
 function deleteRequest(id) {

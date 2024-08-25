@@ -139,14 +139,6 @@
             background-color: #c0c0c0;
             transform: none;
         }
-        @media (max-width: 768px) {
-            .navbar-nav {
-                flex-direction: column; 
-            }
-            table {
-                font-size: 14px; 
-            }
-        }
 
         #searchButton {
             border-radius: 18px;
@@ -198,7 +190,7 @@
           margin: 20px auto;
           padding: 20px;
           border-radius: 8px;
-          background-color: #f9f9f9;
+          background-color: #fff;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           display: none; /* ซ่อนกล่องตอนเริ่มต้น */
       }
@@ -221,7 +213,7 @@
 
       
       .card {
-          border: 1px solid #e79c9c;
+          border: 0.5px solid #ff4907;
           border-radius: 8px;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
@@ -239,102 +231,38 @@
       }
       
       #returnButton {
-          display: none;
-          padding: 10px 20px;
-          margin-top: 20px;
-          background-color: #28a745;
-          color: white;
-          font-size: 16px;
-          font-weight: bold;
-          text-align: center;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          border: none;
-          border-radius: 25px;
-          cursor: pointer;
-          transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
+        display: none;
+        padding: 10px 20px;
+        margin-top: 20px;
+        background-color: #ffffff; /* สีพื้นหลังเริ่มต้นเป็นสีขาว */
+        color: #ff6600; /* สีตัวอักษรส้ม */
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 2px solid #ff6600; /* กำหนดขอบส้ม */
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    #returnButton:hover {
+        background-color: #ff6600; /* สีพื้นหลังเปลี่ยนเป็นส้มเมื่อ hover */
+        color: #ffffff; /* สีตัวอักษรเปลี่ยนเป็นสีขาว */
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    #returnButton:active {
+        background-color: #cc5200; /* สีพื้นหลังเข้มขึ้นเมื่อกด */
+        color: #ffffff; /* สีตัวอักษรคงเป็นสีขาว */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(0);
+    }
+    
       
-      #returnButton:hover {
-          background-color: #218838;
-          box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-          transform: translateY(-2px);
-      }
-      
-      #returnButton:active {
-          background-color: #1e7e34;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          transform: translateY(0);
-      }
-      
-      /* SweetAlert2 Styles */
-      .swal2-popup {
-          font-size: 16px !important;
-          border-radius: 8px !important;
-      }
-      
-      .swal2-confirm {
-          background-color: #ff7b54 !important;
-          color: #ffffff !important;
-          border-radius: 8px !important;
-      }
-      
-      .swal2-cancel {
-          background-color: #b1b1b1 !important;
-          color: #ffffff !important;
-          border-radius: 8px !important;
-      }
-      
-      
-      #returnButton {
-          display: none;
-          padding: 10px 20px;
-          margin-top: 20px;
-          background-color: #28a745;
-          color: white;
-          font-size: 16px;
-          font-weight: bold;
-          text-align: center;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          border: none;
-          border-radius: 25px;
-          cursor: pointer;
-          transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-      
-      #returnButton:hover {
-          background-color: #218838;
-          box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-          transform: translateY(-2px);
-      }
-      
-      #returnButton:active {
-          background-color: #1e7e34;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          transform: translateY(0);
-      }
-      
-
-        /* SweetAlert2 Styles */
-      .swal2-popup {
-        font-size: 16px !important;
-        border-radius: 8px !important;
-      }
-
-      .swal2-confirm {
-        background-color: #ff7b54 !important;
-        color: #ffffff !important;
-        border-radius: 8px !important;
-      }
-
-      .swal2-cancel {
-        background-color: #b1b1b1 !important;
-        color: #ffffff !important;
-        border-radius: 8px !important;
-      }
 
       /* Media Queries */
       @media (max-width: 768px) {
@@ -377,10 +305,10 @@
       <div id="borrowedItemsBox" class="borrowed-items-box">
           <div id="borrowedItems">
               <!-- รายการอุปกรณ์ที่ยืมจะแสดงที่นี่ -->
-          </div>
+            </div>
+            <button id="returnButton">คืนอุปกรณ์</button>
       </div>
 
-      <button id="returnButton">คืนอุปกรณ์</button>
   </div>
 
   <script src="main.js/return.js"></script>

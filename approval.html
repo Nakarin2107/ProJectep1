@@ -35,9 +35,8 @@
             margin-bottom: 20px;
         }
         th, td {
-            
             padding: 12px;
-            text-align: left;
+            text-align: center;
             border-bottom: 1px solid #ddd;
         }
         th {
@@ -74,23 +73,27 @@
             transform: scale(1.05);
         }
         .button.delete-all {
-            background-color: #dc3545;
+            background-color: #ffffff; 
+            color: #ff6600; 
+            border: 2px solid #ff6600; 
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: inline-flex;
+            align-items: center; /* จัดกึ่งกลางแนวตั้ง */
         }
+        
+        .button.delete-all i {
+            margin-right: 8px; /* ระยะห่างระหว่างไอคอนกับข้อความ */
+        }
+        
         .button.delete-all:hover {
-            background-color: #c82333;
+            background-color: #ff6600; 
+            color: #ffffff; 
+            border: 2px solid #ff6600; 
         }
-        .button.edit, .button.delete {
-            background-color: #17b85d;
-        }
-        .button.edit:hover, .button.delete:hover {
-            background-color: #17b85d;
-        }
-        .button.delete {
-            background-color: #dc3545;
-        }
-        .button.delete:hover {
-            background-color: #eb0000;
-        }
+        
+        
+
         .action-buttons {
             display: flex;
             align-items: center;
@@ -110,25 +113,44 @@
         }
 
         .pagination {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin: 20px 0;
         }
-        .pagination button {
-            padding: 10px 15px;
+        
+        .pagination .button {
+            padding: 10px 20px;
             margin: 0 5px;
-            background-color: #148aff;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            background-color: #f0f0f0; /* สีพื้นหลังเทาอ่อน */
+            color: #007bff; /* สีตัวอักษรน้ำเงินอ่อน */
+            border: 2px solid #007bff; /* ขอบน้ำเงินอ่อน */
+            border-radius: 25px; /* ขอบโค้งมน */
             cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เงา */
         }
-        .pagination button:hover {
-            background-color: #0056b3;
+        
+        .pagination .button:hover {
+            background-color: #007bff; /* สีพื้นหลังน้ำเงินอ่อนเมื่อ hover */
+            color: #ffffff; /* สีตัวอักษรขาวเมื่อ hover */
         }
-        .pagination .disabled {
-            background-color: #c0c0c0;
+        
+        .pagination .button.disabled {
+            background-color: #d6d6d6; /* สีพื้นหลังเทาอ่อนเมื่อถูกปิดใช้งาน */
+            color: #a0a0a0; /* สีตัวอักษรเทา */
             cursor: not-allowed;
+            box-shadow: none;
         }
+        
+        .pagination .page-info {
+            margin: 0 10px;
+            font-size: 16px;
+            color: #007bff; /* สีตัวอักษรน้ำเงินอ่อน */
+        }
+        
+        
+        
         .navbar.navbar-expand-lg {
             background-color: #e6edf4;
             margin: 0 0 2rem 0;
@@ -276,7 +298,6 @@
                 <th>สถานะ</th>
                 <th>วันที่คืน</th>
                 <th>การดำเนินการ</th>
-                <th>จำนวนครั้งที่ยืม</th>
             </tr>
             <!-- แถวข้อมูลจะถูกเพิ่มที่นี่โดย JavaScript -->
         </table>
@@ -284,9 +305,13 @@
             <button id="prevPage" class="button disabled">ก่อนหน้า</button>
             <button id="nextPage" class="button">ถัดไป</button>
         </div>
-        <button class="button delete-all" onclick="deleteAllRequests()">ลบทั้งหมด</button>
+        
+        
+        <button class="button delete-all" onclick="deleteAllRequests()">
+            <i class="fas fa-trash-alt"></i> ลบทั้งหมด
+        </button>
     </div>
-
+    
     <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
