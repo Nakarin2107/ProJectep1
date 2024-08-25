@@ -112,6 +112,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
         }
 
+        
         .pagination {
             display: flex;
             justify-content: center;
@@ -119,36 +120,36 @@
             margin: 20px 0;
         }
         
-        .pagination .button {
-            padding: 10px 20px;
-            margin: 0 5px;
-            background-color: #f0f0f0; /* สีพื้นหลังเทาอ่อน */
-            color: #007bff; /* สีตัวอักษรน้ำเงินอ่อน */
-            border: 2px solid #007bff; /* ขอบน้ำเงินอ่อน */
-            border-radius: 25px; /* ขอบโค้งมน */
+        .pagination .icon-button {
+            margin: 0 8px;
+            font-size: 20px; /* ขนาดไอคอน */
+            color: #999999; /* สีพื้นฐานของไอคอน */
+            transition: color 0.3s ease, transform 0.2s ease;
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เงา */
+            transform: scale(1); /* ขนาดพื้นฐาน */
         }
         
-        .pagination .button:hover {
-            background-color: #007bff; /* สีพื้นหลังน้ำเงินอ่อนเมื่อ hover */
-            color: #ffffff; /* สีตัวอักษรขาวเมื่อ hover */
+        .pagination .icon-button:hover {
+            color: #007bff; /* เปลี่ยนสีเมื่อ hover */
+            transform: scale(1.2); /* ขยายเล็กน้อยเมื่อ hover */
         }
         
-        .pagination .button.disabled {
-            background-color: #d6d6d6; /* สีพื้นหลังเทาอ่อนเมื่อถูกปิดใช้งาน */
-            color: #a0a0a0; /* สีตัวอักษรเทา */
+        .pagination .icon-button:active {
+            color: #333333; /* เปลี่ยนสีเมื่อกด */
+            transform: scale(1); /* ขนาดกลับมาเหมือนเดิมเมื่อกด */
+        }
+        
+        .pagination .icon-button.disabled {
+            color: #cccccc; /* สีเมื่อถูกปิดใช้งาน */
             cursor: not-allowed;
-            box-shadow: none;
         }
         
         .pagination .page-info {
             margin: 0 10px;
             font-size: 16px;
-            color: #007bff; /* สีตัวอักษรน้ำเงินอ่อน */
+            color: #333333; 
+            font-family: 'Courier New', Courier, monospace;
         }
-        
         
         
         .navbar.navbar-expand-lg {
@@ -192,7 +193,7 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background-color: #c82333;
+            background-color: #ff6600;
             transform: scaleX(0);
             transform-origin: bottom right;
             transition: transform 0.4s;
@@ -205,8 +206,13 @@
         
         .nav-link:hover {
             color: #ff6600; 
+            text-align: center;
         }
         
+        .nav-link.active {
+            color: #ff6600 !important;
+        }
+
         .nav-link.active, 
         .nav-link.active::after {
             color: #ff6600; 

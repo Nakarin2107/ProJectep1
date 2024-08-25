@@ -91,6 +91,7 @@
             transition: background-color 0.4s, border-radius 0.4s, color 0.4s;
         }
         
+        
         .nav-link::after {
             content: '';
             position: absolute;
@@ -98,12 +99,17 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background-color: #c82333;
+            background-color: #ff6600;
             transform: scaleX(0);
             transform-origin: bottom right;
             transition: transform 0.4s;
         }
+
+        .nav-link.active {
+            color: #ff6600 !important;
+        }
         
+
         .nav-link:hover::after {
             transform: scaleX(1);
             transform-origin: bottom left;
@@ -113,13 +119,10 @@
             color: #ff6600; 
         }
         
-        .nav-link.active, 
-        .nav-link.active::after {
-            color: #ff6600; 
-            border-radius: 8px;
-        }
+        
         
         .nav-link.active::after {
+            color: #ff6600;
             transform: scaleX(1); 
             transform-origin: bottom left; 
         }
@@ -141,8 +144,9 @@
         }
 
         #searchButton {
-            border-radius: 18px;
-            padding: 10px 20px;
+            margin-top: 5px;
+            border-radius: 5px;
+            padding: 8px 20px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -156,7 +160,7 @@
         }
         
         #returnButton {
-            display: none; /* Hide initially */
+            display: none; 
             padding: 10px 20px;
             margin-top: 20px;
             background-color: #ff5722;
@@ -192,17 +196,17 @@
           border-radius: 8px;
           background-color: #fff;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          display: none; /* ซ่อนกล่องตอนเริ่มต้น */
+          display: none; 
       }
       
       
       input[type="checkbox"] {
         align-self: start;
         margin-left: 0.5rem;
-        width: 15px;  /* กำหนดความกว้างของ checkbox */
-        height: 15px; /* กำหนดความสูงของ checkbox */
-        cursor: pointer; /* เพิ่ม cursor pointer เพื่อแสดงว่าเป็น element ที่สามารถคลิกได้ */
-        transform: scale(1.5); /* ขยายขนาด checkbox */
+        width: 15px;  
+        height: 15px; 
+        cursor: pointer; 
+        transform: scale(1.5); 
     }
     
 
@@ -234,14 +238,14 @@
         display: none;
         padding: 10px 20px;
         margin-top: 20px;
-        background-color: #ffffff; /* สีพื้นหลังเริ่มต้นเป็นสีขาว */
-        color: #ff6600; /* สีตัวอักษรส้ม */
+        background-color: #ffffff; 
+        color: #ff6600;
         font-size: 16px;
         font-weight: bold;
         text-align: center;
         text-transform: uppercase;
         letter-spacing: 1px;
-        border: 2px solid #ff6600; /* กำหนดขอบส้ม */
+        border: 2px solid #ff6600; 
         border-radius: 25px;
         cursor: pointer;
         transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
@@ -249,15 +253,15 @@
     }
     
     #returnButton:hover {
-        background-color: #ff6600; /* สีพื้นหลังเปลี่ยนเป็นส้มเมื่อ hover */
-        color: #ffffff; /* สีตัวอักษรเปลี่ยนเป็นสีขาว */
+        background-color: #ff6600; 
+        color: #ffffff; 
         box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         transform: translateY(-2px);
     }
     
     #returnButton:active {
-        background-color: #cc5200; /* สีพื้นหลังเข้มขึ้นเมื่อกด */
-        color: #ffffff; /* สีตัวอักษรคงเป็นสีขาว */
+        background-color: #cc5200; 
+        color: #ffffff; 
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transform: translateY(0);
     }
@@ -315,13 +319,5 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-
-    
-    
-    <script src="main.js/return.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
